@@ -1,0 +1,89 @@
+{
+  // ✅ 저장 시 자동 포맷팅 + Prettier
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // ✅ 저장 시 import 정리 + ESLint 자동 수정
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // ✅ 파일 설정
+  "files.autoSave": "onWindowChange",
+  "files.encoding": "utf8",
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true
+  },
+
+  // ✅ ESLint
+  "eslint.enable": true,
+
+  // ✅ Tailwind CSS 인식 최적화
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html",
+    "javascript": "javascript",
+    "typescript": "typescript",
+    "typescriptreact": "typescriptreact"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["tw`([^`]*)", 1],
+    ["tw\\(([^)]*)\\)", 1],
+    ["className=\"([^\"]*)", 1],
+    ["class=\"([^\"]*)", 1]
+  ],
+
+  // ✅ TypeScript 설정
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // ✅ Java 멀티모듈 프로젝트 경로
+  "java.project.sourcePaths": [
+    "backend/modules/auth/src/main/java",
+    "backend/modules/user/src/main/java",
+    "backend/modules/policy/src/main/java",
+    "backend/core/security/src/main/java",
+    "backend/config/src/main/java"
+  ],
+
+  // ✅ Java 런타임 (로컬 경로에 맞게 수정)
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-17",
+      "path": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.15.6-hotspot",
+      "default": true
+    }
+  ],
+
+  // ✅ Java 기능 향상
+  "java.project.importHints": true,
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.errors.incompleteClasspath.severity": "error",
+
+  // ✅ Kotlin 언어 서버
+  "kotlin.languageServer.enabled": true,
+
+  // ✅ Gradle 빌드 최적화
+  "gradle.autoSync": true,
+  "gradle.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.15.6-hotspot",
+
+  // ✅ 경로 자동완성 향상
+  "path-intellisense.autoSlashAfterDirectory": true,
+  "path-intellisense.extensionOnImport": true,
+
+  // ✅ YAML 스키마 자동 적용
+  "yaml.validate": true,
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "/.github/workflows/*"
+  },
+
+  // ✅ .env 파일 인식
+  "dotenv.enableAutocloaking": false,
+
+  // ✅ VSCode 플러그인 권장 알림
+  "extensions.ignoreRecommendations": false,
+
+  // ✅ UI 하단 오류 위치 표시
+  "problems.showCurrentInStatus": true
+}

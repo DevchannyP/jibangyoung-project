@@ -1,0 +1,20 @@
+# OS 임시 파일
+.DS_Store
+Thumbs.db
+
+# Node.js 빌드 디렉토리
+node_modules/
+.next/
+
+# Java 빌드 결과물
+*.class
+
+# Gradle 캐시
+.gradle/
+
+# 🚫 빌드 산출물 무시
+/backend/build/
+/build/
+*.jar
+*.zip
+*.tar/

@@ -1,0 +1,90 @@
+/* --- Tailwind 기본 세팅 (필수) --- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- 글로벌 폰트 및 공통 배경 --- */
+html,
+body {
+  height: 100%;
+  min-height: 100vh;
+  background: #fff;
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
+}
+
+body {
+  /* 상단/좌우 라운딩이 강조된 배경 (위 이미지 스타일) */
+  background: linear-gradient(
+    to bottom,
+    #ffe066 0%,
+    /* 연노랑, 상단 영역 */ #ffe066 200px,
+    /* 노랑 → 흰색 전환지점 */ #fff 200px,
+    #fff 100%
+  );
+  min-height: 100vh;
+}
+
+/* --- 입력폼 공통 스타일 --- */
+input[type="text"],
+input[type="password"] {
+  @apply w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-base text-gray-700 placeholder-gray-400 outline-none transition;
+  margin-bottom: 0.7rem;
+}
+
+/* --- 버튼 스타일(로그인 등) --- */
+.button-primary {
+  @apply w-full py-3 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-white font-bold text-base shadow transition cursor-pointer;
+}
+
+.button-primary:active {
+  @apply bg-yellow-500;
+}
+
+/* --- 보조 텍스트 (아이디/비번 찾기, 회원가입 등) --- */
+.text-link {
+  @apply text-blue-500 hover:underline transition;
+  cursor: pointer;
+}
+
+/* --- 소셜 로그인 버튼 공통 --- */
+.social-login-btn {
+  @apply w-11 h-11 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow hover:shadow-lg transition;
+  margin: 0 0.35rem;
+}
+
+/* --- 소셜 로고 아이콘 사이즈 통일 --- */
+.social-login-btn img,
+.social-login-btn svg {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+}
+
+/* --- or 구분선 --- */
+.divider-or {
+  @apply flex items-center w-full my-3;
+}
+.divider-or span {
+  @apply flex-1 h-px bg-gray-300;
+}
+.divider-or .or-text {
+  @apply px-3 text-gray-500 text-sm;
+}
+
+/* --- 마스코트/로고 컨테이너 (이미지 반응형) --- */
+.mascots-container {
+  @apply w-full flex justify-center mb-3;
+}
+.mascots-container img {
+  max-width: 340px;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --- 모바일 대응 (반응형) --- */
+@media (max-width: 480px) {
+  .mascots-container img {
+    max-width: 240px;
+  }
+}

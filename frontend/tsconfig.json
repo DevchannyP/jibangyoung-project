@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                            // 최신 JS 대상
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],      // 브라우저 + 최신 API
+    "allowJs": true,                               
+    "skipLibCheck": true,                          
+    "strict": true,                                
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,                                
+    "esModuleInterop": true,                       
+    "module": "ESNext",                            
+    "moduleResolution": "Node",                    
+    "resolveJsonModule": true,                     
+    "isolatedModules": true,                       
+    "incremental": true,                            // 빌드 속도 개선
+    "jsx": "preserve",                              // Next.js가 JSX 처리
+    "baseUrl": ".",                                 // 절대 경로 import 기준
+    "paths": {
+      "@/app/*": ["app/*"],
+      "@/components/*": ["components/*"],
+      "@/libs/*": ["libs/*"],
+      "@/store/*": ["store/*"],
+      "@/styles/*": ["styles/*"],
+      "@/public/*": ["public/*"],
+      "@/types/*": ["types/*"]                      // 타입 파일 경로 (확장)
+    },
+    "plugins": [
+      {
+        "name": "next"                              // Next.js 전용 TS 플러그인
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"                           // Next.js 빌드시 생성 타입
+  ],
+  "exclude": ["node_modules"]
+}
