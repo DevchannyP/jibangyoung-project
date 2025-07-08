@@ -1,80 +1,55 @@
-version: "3.9"
+version: "3.8"
 
 services:
-  backend:
-    container_name: jibangyoung-backend
-    build:
-      context: ../../
-      dockerfile: infra/docker/Dockerfile.backend
-      args:
-        ENV: dev
-    ports:
-      - "8080:8080"
-    volumes:
-      - ../../backend:/app/backend
-    env_file:
-      - .env.dev
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    networks:
-      - jibang-net
+  #######################################
+  # ❌ 백엔드 비활성화 (dev 환경 테스트용)
+  #######################################
+  # backend:
+  #   build:
+  #     context: ../../
+  #     dockerfile: infra/docker/Dockerfile.backend
+  #     args:
+  #       ENV: dev
+  #   ports:
+  #     - "8080:8080"
+  #   env_file:
+  #     - .env.dev
+  #   volumes:
+  #     - ../../backend:/app
+  #   depends_on:
+  #     - redis
+  #   networks:
+  #     - jibang-net
 
-  frontend:
-    container_name: jibangyoung-frontend
-    build:
-      context: ../../
-      dockerfile: infra/docker/Dockerfile.frontend
-      args:
-        ENV: dev
-    ports:
-      - "3000:3000"
-    volumes:
-      - ../../frontend:/app
-    env_file:
-      - .env.dev
-    depends_on:
-      - backend
-    networks:
-      - jibang-net
+  #######################################
+  # ❌ 프론트엔드 비활성화 (dev 환경 테스트용)
+  #######################################
+  # frontend:
+  #   build:
+  #     context: ../../
+  #     dockerfile: infra/docker/Dockerfile.frontend
+  #     args:
+  #       ENV: dev
+  #   ports:
+  #     - "3000:3000"
+  #   env_file:
+  #     - .env.dev
+  #   volumes:
+  #     - ../../frontend:/app
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - jibang-net
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    ports:
-      - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: jibangyoung
-      MYSQL_USER: devuser
-      MYSQL_PASSWORD: devpass
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      retries: 5
-    networks:
-      - jibang-net
-
+  #######################################
+  # ✅ Redis (dev)
+  #######################################
   redis:
-    image: redis:7
-    container_name: redis
+    image: redis:7.2-alpine
     ports:
       - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      retries: 5
     networks:
       - jibang-net
-
-volumes:
-  mysql_data:
 
 networks:
   jibang-net:
-    driver: bridge

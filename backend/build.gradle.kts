@@ -79,8 +79,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    // ✅ ✅ ✅ H2 Embedded DB 추가 (✔️ 여기 추가!)
-    runtimeOnly("com.h2database:h2")
+    // ✅ MySQL JDBC 드라이버 추가
+    runtimeOnly("mysql:mysql-connector-java:8.0.33")
 }
 
 // ✅ QueryDSL 소스 경로 지정
