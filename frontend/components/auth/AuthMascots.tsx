@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-
+// 몰랑
 // [실무] 마스코트 일러스트 – 로그인/온보딩 LCP 핵심
 export default function AuthMascots() {
   return (
