@@ -15,6 +15,9 @@ node_modules/
 # 🚫 빌드 산출물 무시
 /backend/build/
 /build/
-*.jar
 *.zip
 *.tar/
+*.jar
+
+# ✅ 예외 처리: gradle-wrapper.jar은 Git에 포함
+!gradle/wrapper/gradle-wrapper.jar
