@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import Providers from "./providers";
 
+//실험중
 // ✅ 글로벌 스타일/Tailwind (필수)
 import "@/styles/globals.css";
 

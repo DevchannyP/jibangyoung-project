@@ -2,15 +2,14 @@ name: 🚀 CD - Deploy to Production
 
 on:
   push:
-    branches: [main] # 운영 배포는 main 브랜치에만 반응
+    branches: [main]
 
 permissions:
-  id-token: write # OIDC 인증 위해 필요
-  contents: read # 소스코드 읽기 권한
+  id-token: write
+  contents: read
 
 env:
   AWS_REGION: ap-northeast-2
-  AWS_ROLE_NAME: GitHubDeployRole
   K8S_NAMESPACE: prod
   HELM_RELEASE: jibangyoung
 
@@ -20,29 +19,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ Step 1: GitHub 레포지토리 Checkout
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # ✅ Step 2: AWS OIDC 인증 (권한 위임)
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ env.AWS_ROLE_NAME }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # ✅ Step 3: Docker 로그인 및 Backend 빌드/푸시
-      - name: Docker Login & Build Push (Backend)
+      - name: Set up Kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
+
+      - name: Docker Login (GitHub Packages)
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ghcr.io -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build and Push Backend Image
         working-directory: backend
         env:
           IMAGE: ghcr.io/${{ github.repository }}/backend:latest
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login ghcr.io -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
           docker build -t $IMAGE .
           docker push $IMAGE
 
-      # ✅ Step 4: Docker 빌드/푸시 (Frontend)
-      - name: Docker Login & Build Push (Frontend)
+      - name: Build and Push Frontend Image
         working-directory: frontend
         env:
           IMAGE: ghcr.io/${{ github.repository }}/frontend:latest
@@ -50,7 +51,6 @@ jobs:
           docker build -t $IMAGE .
           docker push $IMAGE
 
-      # ✅ Step 5: Helm으로 Kubernetes 배포
       - name: Deploy via Helm
         run: |
           helm upgrade --install ${{ env.HELM_RELEASE }} ./infra/helm \
