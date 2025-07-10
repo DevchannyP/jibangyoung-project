@@ -6,7 +6,6 @@ export const queryClient = new QueryClient({
     queries: {
       // [캐싱/UX] 데이터 자주 안 변하면 캐시 길게(UX↑, 트래픽↓)
       staleTime: 1000 * 60 * 5, // 5분간 "신선"(캐시만 사용, 네트워크 X)
-      cacheTime: 1000 * 60 * 10, // 10분간 메모리 캐시 유지
       retry: 2, // 에러 시 2회 자동 재시도(실무 권장)
       refetchOnWindowFocus: false, // 브라우저 포커스시 재요청 X(UX 선택)
       refetchOnReconnect: true, // 네트워크 복구시 자동 재요청
