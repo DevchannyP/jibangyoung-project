@@ -51,7 +51,7 @@ jobs:
 
       - name: 🔍 Run Backend Tests
         working-directory: backend
-        run: ./gradlew clean test --no-daemon
+        run: ../gradlew :backend:test --no-daemon
 
   frontend:
     name: 🎨 Frontend Lint & Build
