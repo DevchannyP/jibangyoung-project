@@ -31,7 +31,7 @@ jobs:
           --health-retries=5
 
     steps:
-      - name: ✅ Checkout Backend Code
+      - name: ✅ Checkout Code
         uses: actions/checkout@v4
 
       - name: ⚙️ Set up JDK 17
@@ -53,8 +53,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: 🔍 Run Backend Tests
-        working-directory: backend
-        run: ../gradlew :backend:test --no-daemon
+        run: ./gradlew :backend:test --no-daemon
 
   frontend:
     name: 🎨 Frontend Lint & Build
