@@ -1,0 +1,8 @@
+{
+  "extends": ["next", "next/core-web-vitals"],
+  "plugins": [],
+  "rules": {
+    "react/jsx-key": "warn",
+    "react/react-in-jsx-scope": "off"
+  }
+}
