@@ -49,6 +49,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
+      - name: 🔐 Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+
       - name: 🔍 Run Backend Tests
         working-directory: backend
         run: ../gradlew :backend:test --no-daemon
