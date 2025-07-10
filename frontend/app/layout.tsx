@@ -8,7 +8,7 @@ import "@/styles/globals.css";
 
 // ✅ 구글폰트 최적화 (WebFont, FOUT 방지)
 const notoSans = Noto_Sans_KR({
-  weight: ["400", "700"],
+  weight: ["400", "800"],
   subsets: ["latin"],
   display: "swap", // FOIT 방지 (swap 권장)
 });
