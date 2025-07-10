@@ -14,8 +14,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   # redis:
-  #   host: ${REDIS_HOST}
-  #   port: ${REDIS_PORT}
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 
 logging:
   level:
