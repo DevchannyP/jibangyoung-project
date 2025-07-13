@@ -1,12 +1,13 @@
 "use client";
 
-import { queryClient } from "@/libs/query/queryClient";
-
-
+import { queryClient } from "@/libs/react-query/queryClient";
 import { HydrationBoundary, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ReactNode } from "react";
 
+/**
+ * 글로벌 Provider – React Query + Devtools
+ */
 export default function Providers({
   children,
   dehydratedState,

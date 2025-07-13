@@ -1,38 +1,30 @@
+// ✅ app/layout.tsx
+
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import Providers from "./providers";
 
-//실험중 아니 왜 안돼
-// ✅ 글로벌 스타일/Tailwind (필수)
-import "@/styles/globals.css";
-
-// ✅ 구글폰트 최적화 (WebFont, FOUT 방지)
 const notoSans = Noto_Sans_KR({
-  weight: ["400", "800"],
+  weight: ["400", "700"],
   subsets: ["latin"],
-  display: "swap", // FOIT 방지 (swap 권장)
+  display: "swap",
 });
 
-// ✅ [SEO] 실무형 메타데이터 – OG, Twitter, Favicon, Viewport 등 포함
 export const metadata: Metadata = {
   title: "지방청년 플랫폼",
   description: "정책 추천과 커뮤니티를 지원하는 지역 정착 플랫폼",
-  keywords: [
-    "지방청년",
-    "정책 추천",
-    "지역 커뮤니티",
-    "Next.js",
-    "Spring Boot",
-  ],
   icons: { icon: "/favicon.ico" },
   openGraph: {
     title: "지방청년 플랫폼",
     description: "정책 추천과 커뮤니티를 지원하는 지역 정착 플랫폼",
-    url: "https://jibangyoung.com", // 실제 도메인
+    url: "https://jibangyoung.com",
     type: "website",
     images: [
       {
-        url: "/og-image.png", // public 폴더 내 1200x630 PNG 권장
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "지방청년 플랫폼 미리보기",
@@ -46,31 +38,21 @@ export const metadata: Metadata = {
     description: "정책 추천과 커뮤니티를 지원하는 지역 정착 플랫폼",
     images: ["/og-image.png"],
   },
-  // 실제 운영시 language, alternates, canonical 등도 확장
 };
 
-// ✅ 실무형 루트 레이아웃 컴포넌트
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={notoSans.className}>
       <head>
-        {/* ✅ 폰트/외부 CDN preconnect (성능 최적화) */}
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        {/* ✅ 반응형/모바일 뷰포트 (모든 디바이스 대응) */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        {/* ✅ 파비콘/OG/SEO는 metadata에서 자동 포함 (추가 메타 가능) */}
+        <meta name="format-detection" content="telephone=no, email=no, date=no, address=no" />
       </head>
-      <body className={notoSans.className + " bg-gray-50"}>
-        {/* ✅ 글로벌 Provider(React Query/Zustand/Auth 등) 확장 구조 */}
-        <Providers>{children}</Providers>
+      <body>
+        <Providers>
+          <Header />
+          <main className="container py-10">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

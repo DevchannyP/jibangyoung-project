@@ -1,90 +1,195 @@
-/* --- Tailwind 기본 세팅 (필수) --- */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* --- 글로벌 폰트 및 공통 배경 --- */
-html,
-body {
+/* ✅ 글로벌 HTML 설정 */
+html, body {
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #1f2937; /* text-gray-800 */
+  background-color: #ffffff;
   height: 100%;
   min-height: 100vh;
-  background: #fff;
-  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  /* 상단/좌우 라운딩이 강조된 배경 (위 이미지 스타일) */
-  background: linear-gradient(
-    to bottom,
-    #ffe066 0%,
-    /* 연노랑, 상단 영역 */ #ffe066 200px,
-    /* 노랑 → 흰색 전환지점 */ #fff 200px,
-    #fff 100%
-  );
-  min-height: 100vh;
+
+
+main {
+  flex-grow: 1;
 }
 
-/* --- 입력폼 공통 스타일 --- */
-input[type="text"],
-input[type="password"] {
-  @apply w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-base text-gray-700 placeholder-gray-400 outline-none transition;
-  margin-bottom: 0.7rem;
+/* ✅ 공통 컨테이너 정렬 */
+.container {
+  max-width: 1280px; /* max-w-screen-xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;  /* px-4 */
+  padding-right: 1rem;
 }
 
-/* --- 버튼 스타일(로그인 등) --- */
-.button-primary {
-  @apply w-full py-3 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-white font-bold text-base shadow transition cursor-pointer;
-}
-
-.button-primary:active {
-  @apply bg-yellow-500;
-}
-
-/* --- 보조 텍스트 (아이디/비번 찾기, 회원가입 등) --- */
-.text-link {
-  @apply text-blue-500 hover:underline transition;
-  cursor: pointer;
-}
-
-/* --- 소셜 로그인 버튼 공통 --- */
-.social-login-btn {
-  @apply w-11 h-11 flex items-center justify-center rounded-full bg-white border border-gray-200 shadow hover:shadow-lg transition;
-  margin: 0 0.35rem;
-}
-
-/* --- 소셜 로고 아이콘 사이즈 통일 --- */
-.social-login-btn img,
-.social-login-btn svg {
-  width: 26px;
-  height: 26px;
-  object-fit: contain;
-}
-
-/* --- or 구분선 --- */
-.divider-or {
-  @apply flex items-center w-full my-3;
-}
-.divider-or span {
-  @apply flex-1 h-px bg-gray-300;
-}
-.divider-or .or-text {
-  @apply px-3 text-gray-500 text-sm;
-}
-
-/* --- 마스코트/로고 컨테이너 (이미지 반응형) --- */
-.mascots-container {
-  @apply w-full flex justify-center mb-3;
-}
-.mascots-container img {
-  max-width: 340px;
+/* ✅ 헤더 스타일 */
+header {
+  background-color: #FFE13A; /* bg-yellow-300 */
+  color: #1f2937;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* shadow-md */
+  position: sticky;
+  top: 0;
   width: 100%;
-  height: auto;
+  z-index: 50;
+  transition: background-color 0.3s, color 0.3s;
+}
+header:hover {
+  background-color: #ffffff;
+  color: #111827; /* text-gray-900 */
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem; /* py-3 */
+  padding-bottom: 0.75rem;
+}
+header .logo {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 700;   /* font-bold */
+  color: #111827;     /* text-gray-900 */
+  text-decoration: none;
+}
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem; /* gap-6 */
+  font-size: 0.875rem; /* text-sm */
+  font-weight: 500;
+  color: #1f2937;
+}
+header nav a,
+header .dropdown-menu a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+header nav a:hover,
+header .dropdown-menu a:hover {
+  color: #2563eb; /* text-blue-600 */
+}
+header .dropdown-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+}
+header .dropdown-button:hover {
+  color: #2563eb;
+}
+header .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 0.5rem; /* mt-2 */
+  width: 12rem; /* w-48 */
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb; /* border-gray-200 */
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 50;
+}
+header .dropdown-menu a {
   display: block;
+  padding: 0.5rem 1rem; /* px-4 py-2 */
+  font-size: 0.875rem;
+  color: #374151; /* text-gray-700 */
+}
+header .dropdown-menu a:hover {
+  background-color: #f3f4f6; /* hover:bg-gray-100 */
 }
 
-/* --- 모바일 대응 (반응형) --- */
-@media (max-width: 480px) {
-  .mascots-container img {
-    max-width: 240px;
+/* ✅ 푸터 스타일 */
+footer {
+  background-color: #000000;
+  color: #ffffff;
+  width: 100%;
+  padding-top: 1.5rem; /* py-6 */
+  padding-bottom: 1.5rem;
+  margin-top: auto;
+}
+footer .container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.75rem; /* text-xs */
+  justify-content: space-between;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  footer .container {
+    flex-direction: row;
   }
+}
+footer .copyright {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+footer .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  color: #d1d5db; /* text-gray-300 */
+}
+footer a {
+  text-decoration: underline;
+  color: inherit;
+  transition: color 0.2s;
+}
+footer a:hover {
+  color: #facc15; /* hover:text-yellow-400 */
+}
+
+/* ✅ 버튼 및 기타 UI */
+.btn-primary {
+  background-color: #facc15; /* bg-yellow-400 */
+  color: #1f2937; /* text-gray-800 */
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s;
+}
+.btn-primary:hover {
+  background-color: #fbbf24; /* hover:bg-yellow-500 */
+}
+
+/* ✅ 소셜 버튼 */
+.social-button {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #d1d5db; /* border-gray-300 */
+  border-radius: 9999px;
+  transition: box-shadow 0.2s;
+}
+.social-button:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* ✅ 입력창 스타일 */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background-color: #f9fafb; /* bg-gray-50 */
+  border: 1px solid #e5e7eb; /* border-gray-200 */
+  font-size: 1rem;
+  color: #374151; /* text-gray-700 */
+  outline: none;
+}
+input::placeholder {
+  color: #9ca3af; /* placeholder-gray-400 */
 }

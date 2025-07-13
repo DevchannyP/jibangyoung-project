@@ -1,8 +1,11 @@
 {
+  "root": true,
   "extends": ["next", "next/core-web-vitals"],
-  "plugins": [],
+  "plugins": ["react-hooks"],
   "rules": {
     "react/jsx-key": "warn",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off", // React 17+ JSX 자동 import
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }
