@@ -85,5 +85,8 @@
   "extensions.ignoreRecommendations": false,
 
   // ✅ UI 하단 오류 위치 표시
-  "problems.showCurrentInStatus": true
+  "problems.showCurrentInStatus": true,
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  }
 }
