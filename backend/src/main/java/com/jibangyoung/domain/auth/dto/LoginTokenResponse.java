@@ -26,6 +26,7 @@ public class LoginTokenResponse {
   private final Instant expiresAt;
 
   // 생성자 (Builder 전용)
+  
   private LoginTokenResponse(Builder builder) {
     this.tokenType = builder.tokenType;
     this.accessToken = builder.accessToken;

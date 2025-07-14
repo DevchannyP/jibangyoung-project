@@ -1,14 +1,18 @@
 package com.jibangyoung.domain.auth.service;
 
-import com.jibangyoung.domain.auth.dto.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.jibangyoung.domain.auth.dto.LoginRequest;
+import com.jibangyoung.domain.auth.dto.LoginTokenResponse;
+import com.jibangyoung.domain.auth.entity.User;
 import com.jibangyoung.domain.auth.exception.AuthErrorCode;
+import com.jibangyoung.domain.auth.exception.AuthException;
 import com.jibangyoung.domain.auth.repository.UserRepository;
 import com.jibangyoung.domain.auth.util.JwtProvider;
 import com.jibangyoung.global.util.jwt.JwtResolver;
-import com.jibangyoung.domain.auth.domain.entity.User;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +48,7 @@ public LoginTokenResponse refreshAccessToken(String bearerHeader) {
     throw new AuthException(AuthErrorCode.INVALID_REFRESH_TOKEN);
   }
 
-  return LoginTokenResponse.Builder()
+  return LoginTokenResponse.builder()
     .accessToken(jwtProvider.createAccessToken(user))
     .refreshToken(jwtProvider.createRefreshToken(user))
     .expiresIn(3600)

@@ -2,11 +2,16 @@
 // 5. JWT Provider (요약)
 package com.jibangyoung.domain.auth.util;
 
-import com.jibangyoung.domain.auth.domain.User;
-import io.jsonwebtoken.*;
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import com.jibangyoung.domain.auth.entity.User;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtProvider {
