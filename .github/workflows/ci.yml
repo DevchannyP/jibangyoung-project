@@ -49,9 +49,13 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
+      - name: 🔐 gradlew 실행 권한 부여
+        working-directory: backend
+        run: chmod +x ../gradlew
+
       - name: 🔍 Run Backend Tests
         working-directory: backend
-        run: ./gradlew clean test --no-daemon
+        run: ../gradlew clean test --no-daemon
 
   frontend:
     name: 🎨 Frontend Lint & Build
@@ -86,5 +90,11 @@ jobs:
       - name: ✅ Checkout Code
         uses: actions/checkout@v4
 
-      - name: 🔧 Docker Build Test
-        run: docker build -t jibangyoung:latest .
+      - name: 📁 Dockerfile 위치 확인
+        run: ls -al infra/docker
+
+      - name: 🔧 Docker Build Test (frontend)
+        run: docker build -f infra/docker/Dockerfile.frontend -t jibangyoung-frontend:latest .
+
+      - name: 🔧 Docker Build Test (backend)
+        run: docker build -f infra/docker/Dockerfile.backend -t jibangyoung-backend:latest .

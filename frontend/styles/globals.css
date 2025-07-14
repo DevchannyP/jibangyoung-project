@@ -1,195 +1,176 @@
-/* ✅ 글로벌 HTML 설정 */
-html, body {
-  font-family: 'Noto Sans KR', sans-serif;
-  color: #1f2937; /* text-gray-800 */
-  background-color: #ffffff;
-  height: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* ✅ 커스텀 폰트 등록: SCDream4 */
+@font-face {
+  font-family: "SCDream";
+  src: url("/fonts/SCDream4.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ✅ 글로벌 기본 설정 */
+html,
+body {
+  font-family: "SCDream", sans-serif; /* ✅ SCDream4 우선 적용 */
   margin: 0;
   padding: 0;
+  background-color: #ffffff;
+  color: #3a3c3f;
+  height: 100%;
+  width: 100%;
 }
 
-
-
-main {
-  flex-grow: 1;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-/* ✅ 공통 컨테이너 정렬 */
+/* ✅ 공통 컨테이너 */
 .container {
-  max-width: 1280px; /* max-w-screen-xl */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;  /* px-4 */
-  padding-right: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-/* ✅ 헤더 스타일 */
+/* ✅ Header 스타일 */
 header {
-  background-color: #FFE13A; /* bg-yellow-300 */
-  color: #1f2937;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* shadow-md */
+  background-color: #ffe13a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
-  width: 100%;
   z-index: 50;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 header:hover {
   background-color: #ffffff;
-  color: #111827; /* text-gray-900 */
+  color: #111827;
 }
+
+.header-container,
 header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 0.75rem; /* py-3 */
-  padding-bottom: 0.75rem;
+  padding: 0.75rem 0;
 }
-header .logo {
-  font-size: 1.125rem; /* text-lg */
-  font-weight: 700;   /* font-bold */
-  color: #111827;     /* text-gray-900 */
+
+.logo {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #111827;
   text-decoration: none;
 }
-header nav {
+
+nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem; /* gap-6 */
-  font-size: 0.875rem; /* text-sm */
-  font-weight: 500;
+  gap: 1.5rem;
+}
+
+nav a {
   color: #1f2937;
-}
-header nav a,
-header .dropdown-menu a {
-  color: inherit;
+  font-size: 0.875rem;
   text-decoration: none;
-  transition: color 0.2s ease-in-out;
 }
-header nav a:hover,
-header .dropdown-menu a:hover {
-  color: #2563eb; /* text-blue-600 */
+
+nav a:hover {
+  color: #2563eb;
 }
-header .dropdown-button {
+
+/* ✅ 드롭다운 */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-button {
   background: none;
   border: none;
   cursor: pointer;
-  color: inherit;
   font: inherit;
-  padding: 0;
+  color: inherit;
 }
-header .dropdown-button:hover {
+
+.dropdown-button:hover {
   color: #2563eb;
 }
-header .dropdown-menu {
+
+.dropdown-menu {
   position: absolute;
   top: 100%;
   left: 0;
-  margin-top: 0.5rem; /* mt-2 */
-  width: 12rem; /* w-48 */
+  margin-top: 0.5rem;
+  width: 12rem;
   background-color: #ffffff;
-  border: 1px solid #e5e7eb; /* border-gray-200 */
+  border: 1px solid #e5e7eb;
   border-radius: 0.375rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  z-index: 50;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
 }
-header .dropdown-menu a {
+
+.dropdown-menu a {
   display: block;
-  padding: 0.5rem 1rem; /* px-4 py-2 */
+  padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  color: #374151; /* text-gray-700 */
-}
-header .dropdown-menu a:hover {
-  background-color: #f3f4f6; /* hover:bg-gray-100 */
+  color: #374151;
+  text-decoration: none;
 }
 
-/* ✅ 푸터 스타일 */
-footer {
-  background-color: #000000;
-  color: #ffffff;
-  width: 100%;
-  padding-top: 1.5rem; /* py-6 */
-  padding-bottom: 1.5rem;
-  margin-top: auto;
-}
-footer .container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 0.75rem; /* text-xs */
-  justify-content: space-between;
-  align-items: center;
-}
-@media (min-width: 768px) {
-  footer .container {
-    flex-direction: row;
-  }
-}
-footer .copyright {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-footer .links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  color: #d1d5db; /* text-gray-300 */
-}
-footer a {
-  text-decoration: underline;
-  color: inherit;
-  transition: color 0.2s;
-}
-footer a:hover {
-  color: #facc15; /* hover:text-yellow-400 */
+.dropdown-menu a:hover {
+  background-color: #f3f4f6;
 }
 
-/* ✅ 버튼 및 기타 UI */
+/* ✅ 로그인 버튼 */
 .btn-primary {
-  background-color: #facc15; /* bg-yellow-400 */
-  color: #1f2937; /* text-gray-800 */
+  background-color: #facc15;
+  color: #1f2937;
   font-weight: 600;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
 }
+
 .btn-primary:hover {
-  background-color: #fbbf24; /* hover:bg-yellow-500 */
+  background-color: #fbbf24;
 }
 
-/* ✅ 소셜 버튼 */
-.social-button {
-  width: 3rem;
-  height: 3rem;
+/* ✅ Footer */
+footer {
+  background-color: #000000;
+  color: #ffffff;
+  padding: 1.5rem 1rem;
+  margin-top: auto;
+}
+
+footer .container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  border: 1px solid #d1d5db; /* border-gray-300 */
-  border-radius: 9999px;
-  transition: box-shadow 0.2s;
-}
-.social-button:hover {
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  gap: 0.5rem;
+  font-size: 0.75rem;
 }
 
-/* ✅ 입력창 스타일 */
-input[type="text"],
-input[type="password"],
-input[type="email"] {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  background-color: #f9fafb; /* bg-gray-50 */
-  border: 1px solid #e5e7eb; /* border-gray-200 */
-  font-size: 1rem;
-  color: #374151; /* text-gray-700 */
-  outline: none;
+footer .links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  color: #d1d5db;
 }
-input::placeholder {
-  color: #9ca3af; /* placeholder-gray-400 */
+
+footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+footer a:hover {
+  color: #facc15;
+}
+
+@media (min-width: 768px) {
+  footer .container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }

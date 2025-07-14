@@ -1,11 +1,11 @@
 /* 🟡 전체 페이지 메인 구조 */
 .main {
   min-height: 100vh;
-  width: 100vw;
+  width: 1400px;
   background-color: #ffe140;
   position: relative;
   overflow-x: hidden;
-  align-items: center; /* ✅ 가운데 정렬 */
+  margin: 0 auto;
 }
 
 /* 🟨 상단 배경 (마스코트 포함, 하단 둥근 모서리) */
@@ -39,23 +39,22 @@
 /* ⬜ 로그인 영역 */
 .loginSection {
   background-color: #fffdf3;
-  width: 100%;
+
+  width: 1400px;
   margin-top: -120px; /* ❗ 위로 올려서 자연스러운 겹침 */
-  padding: 350px 1rem 100px;
+  padding: 300px 1rem 260px;
   border-radius: 64px 64px 0 0;
   position: relative;
   z-index: 1;
-
   display: flex;
   justify-content: center;
-  padding: 220px 1rem 100px; /* ✅ 줄임 */
   box-sizing: border-box;
 }
 
 /* 📦 로그인 입력창 */
 .formContainer {
   max-width: 440px;
-  width: 100%;
+  width: 1400px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
