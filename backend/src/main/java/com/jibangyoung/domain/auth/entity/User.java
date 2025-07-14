@@ -1,12 +1,12 @@
+// User.java
 package com.jibangyoung.domain.auth.entity;
 
-import java.time.LocalDateTime;
-
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import jakarta.persistence.*;
-import lombok.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -36,7 +36,6 @@ public class User {
     @Column(name = "is_social", nullable = false)
     private boolean isSocial;
 
-    // ✅ 역할(Role) 추가 필드
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private UserRole role;

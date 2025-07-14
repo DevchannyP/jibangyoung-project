@@ -1,16 +1,20 @@
+// LoginLog.java
 package com.jibangyoung.domain.auth.entity;
 
+import lombok.*;
+
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.Id;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-
-
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class LoginLog {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;

@@ -1,5 +1,3 @@
-"use client";
-
 import { loginWithEmail } from "@/libs/api/auth.api";
 import { useAuthStore } from "@/store/authStore";
 import { useMutation } from "@tanstack/react-query";
@@ -7,26 +5,24 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../LoginPage.module.css";
 
 export default function LoginForm() {
-  const { setUser } = useAuthStore();
-
-  const [userid, setUserid] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPw, setShowPw] = useState(false);
-  const [error, setError] = useState("");
+  // 🔽 setUser를 selector 패턴으로 불러옴 (Zustand 공식 추천)
+  const setUser = useAuthStore((state) => state.setUser);
+  // ...아래는 동일
+  const [userid, setUserid] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPw, setShowPw] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
+    return () => setError("");
   }, []);
 
   const loginMutation = useMutation({
     mutationFn: () => loginWithEmail(userid.trim(), password),
     onSuccess: (res) => {
-      const user = {
-        ...res.user,
-        nickname: res.user.nickname ?? "",
-      };
-      setUser(user);
+      setUser({ ...res.user, nickname: res.user.nickname ?? "" });
       window.location.href = "/dashboard";
     },
     onError: (err: any) => {
@@ -40,6 +36,10 @@ export default function LoginForm() {
       }
     },
   });
+
+  // ...아래 생략, 동일하게 유지
+
+
 
   const isIdValid = userid.trim().length >= 4;
   const isPwValid = password.length >= 4;
@@ -58,17 +58,15 @@ export default function LoginForm() {
     handleLogin();
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleLogin();
-  };
-
   return (
     <form
       className={styles.formContainer}
       autoComplete="on"
       aria-label="로그인 입력 폼"
       onSubmit={handleSubmit}
+      style={{ gap: 0 }} // 인풋, 버튼 직접 여백 적용
     >
+      {/* 아이디 입력 */}
       <input
         ref={inputRef}
         type="text"
@@ -79,10 +77,13 @@ export default function LoginForm() {
         aria-label="아이디"
         required
         maxLength={50}
-        onKeyDown={handleKeyDown}
+        minLength={4}
+        className={styles.inputField}
+        style={{ marginBottom: "14px" }}
       />
 
-      <div className={styles.passwordWrapper}>
+      {/* 비밀번호 입력 + 보기 버튼 */}
+      <div style={{ position: "relative", marginBottom: "18px" }}>
         <input
           type={showPw ? "text" : "password"}
           value={password}
@@ -92,29 +93,42 @@ export default function LoginForm() {
           aria-label="비밀번호"
           required
           maxLength={50}
-          onKeyDown={handleKeyDown}
+          minLength={4}
+          className={styles.inputField}
+          style={{ marginBottom: 0, paddingRight: "64px" }}
         />
         <button
           type="button"
           tabIndex={-1}
           onClick={() => setShowPw((v) => !v)}
           aria-label={showPw ? "비밀번호 숨기기" : "비밀번호 보이기"}
+          className={styles.showPwBtn}
+          style={{
+            position: "absolute",
+            right: 4,
+            top: 0,
+            height: "100%",
+            fontWeight: 500,
+          }}
         >
           {showPw ? "숨김" : "보기"}
         </button>
       </div>
 
+      {/* 에러 메시지 */}
       {error && (
-        <div style={{ color: "red", fontSize: "0.75rem" }} role="alert">
+        <div className={styles.errorMsg} role="alert">
           {error}
         </div>
       )}
 
+      {/* 로그인 버튼 */}
       <button
         type="submit"
         disabled={isPending || !isFormValid}
         aria-disabled={isPending || !isFormValid}
         className={styles.loginButton}
+        tabIndex={0} // 💡 키보드 접근성 향상
       >
         {isPending ? "로그인 중..." : "로그인"}
       </button>

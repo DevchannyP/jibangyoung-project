@@ -1,23 +1,44 @@
 package com.jibangyoung.global.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
-@Schema(description = "API 공통 응답")
+@Getter
+@Schema(description = "API 표준 응답")
 public class ApiResponse<T> {
 
-    @Schema(description = "요청 성공 여부", example = "true")
-    private boolean success;
+    @Schema(description = "성공 여부", example = "true")
+    private final boolean success;
 
     @Schema(description = "응답 데이터")
-    private T data;
+    private final T data;
 
-    public static <T> ApiResponse<T> success(T data) {
-        ApiResponse<T> response = new ApiResponse<>();
-        response.success = true;
-        response.data = data;
-        return response;
+    @Schema(description = "실패 시 에러코드")
+    private final String errorCode;
+
+    @Schema(description = "실패 시 메시지")
+    private final String message;
+
+    // 성공 응답
+    private ApiResponse(T data) {
+        this.success = true;
+        this.data = data;
+        this.errorCode = null;
+        this.message = null;
     }
 
-    // 실패 응답도 추가 가능 (예: error 메시지 포함)
-}
+    // 실패 응답
+    private ApiResponse(String errorCode, String message) {
+        this.success = false;
+        this.data = null;
+        this.errorCode = errorCode;
+        this.message = message;
+    }
 
+    public static <T> ApiResponse<T> success(T data) {
+        return new ApiResponse<>(data);
+    }
+    public static <T> ApiResponse<T> fail(String errorCode, String message) {
+        return new ApiResponse<>(errorCode, message);
+    }
+}
