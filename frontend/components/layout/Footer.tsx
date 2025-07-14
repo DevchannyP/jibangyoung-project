@@ -1,7 +1,6 @@
 // app/components/layout/Footer.tsx
 "use client";
 
-
 import "@/styles/globals.css"; // ✅ 직접 import 가능
 import Link from "next/link";
 

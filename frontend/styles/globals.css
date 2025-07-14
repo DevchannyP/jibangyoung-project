@@ -1,6 +1,7 @@
 /* ✅ 글로벌 HTML 설정 */
-html, body {
-  font-family: 'Noto Sans KR', sans-serif;
+html,
+body {
+  font-family: "Noto Sans KR", sans-serif;
   color: #1f2937; /* text-gray-800 */
   background-color: #ffffff;
   height: 100%;
@@ -11,8 +12,6 @@ html, body {
   padding: 0;
 }
 
-
-
 main {
   flex-grow: 1;
 }
@@ -22,20 +21,22 @@ main {
   max-width: 1280px; /* max-w-screen-xl */
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;  /* px-4 */
+  padding-left: 1rem; /* px-4 */
   padding-right: 1rem;
 }
 
 /* ✅ 헤더 스타일 */
 header {
-  background-color: #FFE13A; /* bg-yellow-300 */
+  background-color: #ffe13a; /* bg-yellow-300 */
   color: #1f2937;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* shadow-md */
   position: sticky;
   top: 0;
   width: 100%;
   z-index: 50;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 header:hover {
   background-color: #ffffff;
@@ -50,8 +51,8 @@ header .container {
 }
 header .logo {
   font-size: 1.125rem; /* text-lg */
-  font-weight: 700;   /* font-bold */
-  color: #111827;     /* text-gray-900 */
+  font-weight: 700; /* font-bold */
+  color: #111827; /* text-gray-900 */
   text-decoration: none;
 }
 header nav {
@@ -92,7 +93,7 @@ header .dropdown-menu {
   background-color: #ffffff;
   border: 1px solid #e5e7eb; /* border-gray-200 */
   border-radius: 0.375rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 50;
 }
 header .dropdown-menu a {
@@ -174,7 +175,7 @@ footer a:hover {
   transition: box-shadow 0.2s;
 }
 .social-button:hover {
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* ✅ 입력창 스타일 */
