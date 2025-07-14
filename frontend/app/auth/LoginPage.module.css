@@ -5,6 +5,7 @@
   background-color: #ffe140;
   position: relative;
   overflow-x: hidden;
+  align-items: center; /* ✅ 가운데 정렬 */
 }
 
 /* 🟨 상단 배경 (마스코트 포함, 하단 둥근 모서리) */
@@ -38,7 +39,7 @@
 /* ⬜ 로그인 영역 */
 .loginSection {
   background-color: #fffdf3;
-  width: 100vw;
+  width: 100%;
   margin-top: -120px; /* ❗ 위로 올려서 자연스러운 겹침 */
   padding: 350px 1rem 100px;
   border-radius: 64px 64px 0 0;
@@ -47,6 +48,7 @@
 
   display: flex;
   justify-content: center;
+  padding: 220px 1rem 100px; /* ✅ 줄임 */
   box-sizing: border-box;
 }
 
