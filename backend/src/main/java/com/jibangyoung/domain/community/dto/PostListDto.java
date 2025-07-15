@@ -17,5 +17,5 @@ public class PostListDto {
     private int views;
     private LocalDateTime createdAt;
     private Long userId;
-    private Long reginId;
+    private Long regionId;
 }
