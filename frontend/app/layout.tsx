@@ -20,9 +20,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <Header />
-          <main className="container" style={{ padding: "2rem 0" }}>
-            {children}
-          </main>
+          <main className="container">{children}</main>
           <Footer />
         </Providers>
       </body>

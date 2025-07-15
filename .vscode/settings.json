@@ -9,7 +9,7 @@
     "source.fixAll.eslint": "explicit"
   },
 
-  // ✅ 파일 설정
+  // ✅ 파일 관련 설정
   "files.autoSave": "onWindowChange",
   "files.encoding": "utf8",
   "files.exclude": {
@@ -17,10 +17,10 @@
     "**/node_modules": true
   },
 
-  // ✅ ESLint
+  // ✅ ESLint 설정
   "eslint.enable": true,
 
-  // ✅ Tailwind CSS 인식 최적화
+  // ✅ Tailwind CSS 클래스 자동완성 개선
   "tailwindCSS.includeLanguages": {
     "plaintext": "html",
     "javascript": "javascript",
@@ -34,10 +34,10 @@
     ["class=\"([^\"]*)", 1]
   ],
 
-  // ✅ TypeScript 설정
+  // ✅ TypeScript 전용 SDK 설정
   "typescript.tsdk": "node_modules/typescript/lib",
 
-  // ✅ Java 멀티모듈 프로젝트 경로
+  // ✅ Java 멀티모듈 소스 경로
   "java.project.sourcePaths": [
     "backend/modules/auth/src/main/java",
     "backend/modules/user/src/main/java",
@@ -46,7 +46,7 @@
     "backend/config/src/main/java"
   ],
 
-  // ✅ Java 런타임 (로컬 경로에 맞게 수정)
+  // ✅ Java 런타임 경로 및 버전 (수동 경로 확인 필요)
   "java.configuration.runtimes": [
     {
       "name": "JavaSE-17",
@@ -55,35 +55,36 @@
     }
   ],
 
-  // ✅ Java 기능 향상
+  // ✅ Java import & 컴파일 설정
+  "java.import.gradle.enabled": true,
   "java.project.importHints": true,
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.compile.nullAnalysis.mode": "automatic",
   "java.errors.incompleteClasspath.severity": "error",
 
-  // ✅ Kotlin 언어 서버
+  // ✅ Kotlin 언어 서버 설정
   "kotlin.languageServer.enabled": true,
 
-  // ✅ Gradle 빌드 최적화
+  // ✅ Gradle 설정
   "gradle.autoSync": true,
   "gradle.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.15.6-hotspot",
 
-  // ✅ 경로 자동완성 향상
+  // ✅ 경로 자동완성 기능 향상
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.extensionOnImport": true,
 
-  // ✅ YAML 스키마 자동 적용
+  // ✅ YAML 스키마 자동 연동
   "yaml.validate": true,
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": "/.github/workflows/*"
   },
 
-  // ✅ .env 파일 인식
+  // ✅ .env 자동 인식
   "dotenv.enableAutocloaking": false,
 
-  // ✅ VSCode 플러그인 권장 알림
+  // ✅ 플러그인 권장 알림 활성화
   "extensions.ignoreRecommendations": false,
 
-  // ✅ UI 하단 오류 위치 표시
+  // ✅ 에디터 하단 오류 알림
   "problems.showCurrentInStatus": true
 }

@@ -17,17 +17,16 @@
   align-items: flex-start;
   position: absolute;
   left: 0;
-  top: 18px;          /* ← 여기를 0 → 40px 등으로 변경! */
+  top: 14px; /* ← 여기를 0 → 40px 등으로 변경! */
   z-index: 10;
   pointer-events: none;
   height: 260px;
 }
 
-
 /* 마스코트 이미지 크기와 위치 */
 .mascotImg {
   width: 100%;
-  max-width: 780px;   /* 이전: 900px */
+  max-width: 780px; /* 이전: 900px */
   min-width: 220px;
   height: auto;
   display: block;
@@ -55,7 +54,7 @@
   width: 100%;
   min-height: calc(100vh - 80px);
   background: #fffdf3;
-  border-radius: 0 0 64px 64px;
+  border-radius: 64px 64px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,7 +71,7 @@
   width: 100%;
   height: 370px;
   background: #fffdf3;
-  border-radius: 0 0 64px 64px;
+  border-radius: 64px 64px 0 0;
   position: relative;
   z-index: 2;
   display: flex;
@@ -89,11 +88,10 @@
   flex-direction: column;
   align-items: center;
   /* 기존 -36px 대신 +값! */
-  margin-top: -20px;   /* ← 원하는 만큼 크게 (예: 40~100px 등으로 실시간 조정) */
+  margin-top: -20px; /* ← 원하는 만큼 크게 (예: 40~100px 등으로 실시간 조정) */
   padding-top: 26px;
   padding-bottom: 60px;
 }
-
 
 .formContainer {
   max-width: 400px;
@@ -106,16 +104,14 @@
   background: transparent;
 }
 
-
-
 .inputField {
   width: 100%;
   height: 48px;
-  background: #F8F8F8;
-  border: 1.5px solid #ECECEC;
+  background: #f8f8f8;
+  border: 1.5px solid #ececec;
   border-radius: 12px;
   font-size: 1rem;
-  color: #3A3C3F;
+  color: #3a3c3f;
   padding: 0 18px;
   margin-bottom: 14px;
   outline: none;
@@ -124,21 +120,23 @@
   font-weight: 400;
   box-sizing: border-box;
 }
-.inputField:focus { border: 1.5px solid #FFDF39; }
+.inputField:focus {
+  border: 1.5px solid #ffdf39;
+}
 
 .loginButton {
   width: 100%;
   height: 48px;
-  background: #FFDF39;
+  background: #ffdf39;
   border: none;
   border-radius: 12px;
-  color: #3A3C3F;
+  color: #3a3c3f;
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 18px;
   cursor: pointer;
   transition: filter 0.15s;
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.04);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.04);
   letter-spacing: -0.5px;
 }
 .loginButton:disabled {
@@ -146,7 +144,9 @@
   cursor: not-allowed;
   filter: grayscale(0.4);
 }
-.loginButton:hover:not(:disabled) { filter: brightness(0.98); }
+.loginButton:hover:not(:disabled) {
+  filter: brightness(0.98);
+}
 
 .showPwBtn {
   background: none;
@@ -165,17 +165,18 @@
   margin-bottom: 0.5rem;
 }
 .linkSm {
-  color: #D32F2F;
+  color: #d32f2f;
   text-decoration: none;
   font-weight: 400;
   font-size: 0.97rem;
 }
-.linkSm:hover, .linkSm:focus-visible {
+.linkSm:hover,
+.linkSm:focus-visible {
   text-decoration: underline;
-  color: #A82727;
+  color: #a82727;
 }
 .errorMsg {
-  color: #D32F2F;
+  color: #d32f2f;
   font-size: 0.96rem;
   margin: 2px 0 10px;
 }
@@ -194,33 +195,34 @@
   content: "";
   flex: 1 1 0;
   height: 1.5px;
-  background: #ECECEC;
+  background: #ececec;
 }
 .socialWrapper {
   display: flex;
   justify-content: center;
-  gap: 35px;
+  gap: 55px;
   margin-bottom: 1.3rem;
 }
 .socialButton {
-  width: 58px;     /* 이전: 46px */
-  height: 58px;    /* 이전: 46px */
+  width: 58px; /* 이전: 46px */
+  height: 58px; /* 이전: 46px */
   background: #fff;
   border: 1.2px solid #ececec;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1.5px 8px 0 rgba(0,0,0,0.06);
-  transition: box-shadow 0.14s, border 0.14s;
+  box-shadow: 0 1.5px 8px 0 rgba(0, 0, 0, 0.06);
+  transition:
+    box-shadow 0.14s,
+    border 0.14s;
   cursor: pointer;
   padding: 0;
 }
 
-
 .socialButton:hover {
-  box-shadow: 0 3px 12px 0 rgba(0,0,0,0.13);
-  border: 1.2px solid #FFDF39;
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.13);
+  border: 1.2px solid #ffe141;
 }
 .bottomText {
   margin-top: 1.7rem;
@@ -230,12 +232,14 @@
   font-weight: 400;
 }
 .bottomText a {
-  color: #3884E3;
+  color: #3884e3;
   font-weight: 500;
   text-decoration: none;
   margin-left: 2px;
 }
-.bottomText a:hover { text-decoration: underline; }
+.bottomText a:hover {
+  text-decoration: underline;
+}
 
 @media (max-width: 600px) {
   .mascotImg {
@@ -255,16 +259,26 @@
 
 .loginButton:focus-visible,
 .socialButton:focus-visible {
-  outline: 2.5px solid #3884E3;
+  outline: 2.5px solid #3884e3;
   outline-offset: 2px;
 }
 
 @media (max-width: 900px) {
-  .formContainer { max-width: 99%; }
-  .mascotImg { max-width: 97vw; }
-  .loginSection { padding-bottom: 48px; }
+  .formContainer {
+    max-width: 99%;
+  }
+  .mascotImg {
+    max-width: 97vw;
+  }
+  .loginSection {
+    padding-bottom: 48px;
+  }
 }
 @media (max-width: 400px) {
-  .formContainer { max-width: 100%; }
-  .mascotImg { min-width: 100px; }
+  .formContainer {
+    max-width: 100%;
+  }
+  .mascotImg {
+    min-width: 100px;
+  }
 }

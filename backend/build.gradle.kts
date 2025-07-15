@@ -1,13 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id("java")
     id("application")
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
     kotlin("jvm") version "1.9.22"
     kotlin("plugin.spring") version "1.9.22"
     kotlin("plugin.jpa") version "1.9.22"
-    id("org.jetbrains.kotlin.kapt") version "1.9.22"
+    id("org.jetbrains.kotlin.kapt") version "1.9.22" // kapt 플러그인 적용 확인
 }
 
 java {
@@ -69,9 +70,10 @@ dependencies {
     implementation("org.bouncycastle:bcprov-jdk18on:1.77")
 
     // ✅ Lombok (Java, Kotlin 혼합 환경)
+    // ✅ Lombok 설정 (Java + Kotlin(KAPT)용 모두 설정)
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
-    kapt("org.projectlombok:lombok:1.18.30")
+    kapt("org.projectlombok:lombok:1.18.30") // ← 반드시 추가
 
     // ✅ 테스트
     testImplementation("org.springframework.boot:spring-boot-starter-test")

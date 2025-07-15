@@ -1,5 +1,9 @@
 /* ✅ 커스텀 폰트 등록: SCDream4 */
-*, *::before, *::after { box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 @font-face {
   font-family: "SCDream";
   src: url("/fonts/SCDream4.otf") format("opentype");
@@ -9,7 +13,8 @@
 }
 
 /* === 글로벌 기본 === */
-html, body {
+html,
+body {
   font-family: "SCDream", sans-serif;
   margin: 0;
   padding: 0;
@@ -43,7 +48,7 @@ body {
 header {
   width: 100%;
   background: #ffe140;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.07);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
   position: sticky;
   top: 0;
   left: 0;
@@ -55,7 +60,8 @@ header {
   padding: 0;
   border-bottom: 1.5px solid #fae364;
 }
-.header-container, header .container {
+.header-container,
+header .container {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
@@ -69,7 +75,7 @@ header {
 
 /* ====== 로고 ====== */
 .logo {
-  font-size: 2.1rem;          /* ✅ Figma 대비 작게 조정 (ex. 2.1rem) */
+  font-size: 2.1rem; /* ✅ Figma 대비 작게 조정 (ex. 2.1rem) */
   font-weight: 900;
   letter-spacing: -0.02em;
   color: #191919;
@@ -79,15 +85,15 @@ header {
   display: flex;
   align-items: center;
   user-select: none;
-  white-space: nowrap;         /* ✅ 줄바꿈 방지 */
+  white-space: nowrap; /* ✅ 줄바꿈 방지 */
   transition: font-size 0.18s;
 }
 
 nav {
   display: flex;
-  gap: 28px;                   /* ✅ nav 간격 소폭 줄임 */
+  gap: 28px; /* ✅ nav 간격 소폭 줄임 */
   align-items: center;
-  font-size: 1.04rem;          /* ✅ nav 폰트도 소폭 축소 */
+  font-size: 1.04rem; /* ✅ nav 폰트도 소폭 축소 */
   margin-right: auto;
   width: 100%;
 }
@@ -137,7 +143,7 @@ nav a:focus-visible {
   background: #fffdf3;
   border: 1.3px solid #f6eebc;
   border-radius: 10px;
-  box-shadow: 0 6px 24px 0 rgba(0,0,0,0.10);
+  box-shadow: 0 6px 24px 0 rgba(0, 0, 0, 0.1);
   padding: 0.5rem 0;
   z-index: 9999;
   display: flex;
@@ -152,7 +158,9 @@ nav a:focus-visible {
   text-decoration: none;
   border-radius: 7px;
   font-weight: 500;
-  transition: background 0.13s, color 0.13s;
+  transition:
+    background 0.13s,
+    color 0.13s;
 }
 .dropdown-menu a:hover,
 .dropdown-menu a:focus-visible {
@@ -167,13 +175,16 @@ nav a:focus-visible {
   border: 1.5px solid #facc15;
   border-radius: 16px;
   font-weight: 700;
-  font-size: 1rem;          /* ✅ 폰트 줄임 */
-  padding: 7px 22px;        /* ✅ 패딩 축소 */
+  font-size: 1rem; /* ✅ 폰트 줄임 */
+  padding: 7px 22px; /* ✅ 패딩 축소 */
   cursor: pointer;
-  transition: background 0.12s, border 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    border 0.12s,
+    color 0.12s;
   margin-left: 16px;
   text-decoration: none;
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.02);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.02);
   line-height: 1;
   white-space: nowrap;
 }
@@ -205,22 +216,45 @@ footer .links {
   gap: 1rem;
   color: #d1d5db;
 }
-footer a { color: inherit; text-decoration: underline; }
-footer a:hover { color: #facc15; }
+footer a {
+  color: inherit;
+  text-decoration: underline;
+}
+footer a:hover {
+  color: #facc15;
+}
 
 /* === 반응형 === */
 @media (max-width: 1200px) {
-  .header-container, .container { padding: 0 16px; }
-  .logo { font-size: 1.45rem; }
-  nav { gap: 14px; font-size: 0.98rem; }
+  .header-container,
+  .container {
+    padding: 0 16px;
+  }
+  .logo {
+    font-size: 1.45rem;
+  }
+  nav {
+    gap: 14px;
+    font-size: 0.98rem;
+  }
 }
 @media (max-width: 700px) {
-  .header-container, .container {
+  .header-container,
+  .container {
     padding: 0 6px;
     min-height: 46px;
     height: 46px;
   }
-  .logo { font-size: 1.01rem; }
-  nav { gap: 5px; font-size: 0.87rem; }
-  .btn-primary { font-size: 0.86rem; padding: 5px 10px; border-radius: 10px; }
+  .logo {
+    font-size: 1.01rem;
+  }
+  nav {
+    gap: 5px;
+    font-size: 0.87rem;
+  }
+  .btn-primary {
+    font-size: 0.86rem;
+    padding: 5px 10px;
+    border-radius: 10px;
+  }
 }
