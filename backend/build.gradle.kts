@@ -33,11 +33,13 @@ dependencies {
 
     // ✅ JPA + QueryDSL
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    // QueryDSL 5.0.0 for Jakarta EE 9+ requires jakarta.persistence-api 3.x
+    // Spring Boot 3.x already uses Jakarta EE, so this is generally compatible.
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
     annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
-
-    // ✅ JPA Entity 오류 방지용
-    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    // Note: querydsl-apt for jakarta automatically pulls in jakarta.persistence-api,
+    // so explicit declaration of jakarta.persistence-api might be redundant or conflict.
+    // Let's remove the redundant one below.
 
     // ✅ Redis, Swagger, AWS, Elasticsearch 등
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
@@ -59,6 +61,8 @@ dependencies {
     // ✅ Lombok (Java)
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
+    // Lombok for QueryDSL Q-class generation (IMPORTANT!)
+    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta:jpa") // Ensure JPA APT is applied with Lombok's APT
 
     // ✅ MySQL
     runtimeOnly("mysql:mysql-connector-java:8.0.33")
@@ -68,26 +72,35 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.11.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-
-
     // ✅ JPA Entity 어노테이션 오류 방지 (컴파일러 인식용 추가)
-    compileOnly("jakarta.persistence:jakarta.persistence-api:3.1.0")
-    annotationProcessor("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    // 이 부분은 querydsl-apt:5.0.0:jakarta 에 의해 이미 제공될 가능성이 높습니다.
+    // Spring Boot 3.x 자체가 Jakarta EE 기반이므로, 대부분의 경우 명시적으로 추가할 필요가 없습니다.
+    // 만약 컴파일 오류가 발생하면 다시 추가를 고려하세요.
+    // compileOnly("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    // annotationProcessor("jakarta.persistence:jakarta.persistence-api:3.1.0")
 }
 
-// ✅ QueryDSL 소스 경로
-sourceSets["main"].java.srcDir("build/generated/source/annotationProcessor/java/main")
+// ✅ QueryDSL 소스 경로 (Kotlin DSL에서는 safer way)
+// 기존 방식도 작동하지만, 더 명시적인 접근 방식을 선호합니다.
+// generatedSourcesDir는 Kotlin DSL에서 일반적으로 사용되는 속성입니다.
+tasks.withType<JavaCompile> {
+    options.generatedSourceOutputDirectory.set(
+        file("build/generated/source/annotationProcessor/java/main")
+    )
+}
 
-// ✅ 메인 클래스 설정
+// ✅ 메인 클래스 설정 (더 간결하고 명확하게)
 val mainClassFqcn = "com.jibangyoung.JibangyoungApplication"
 
 application {
     mainClass.set(mainClassFqcn)
 }
 
-tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    mainClass.set(mainClassFqcn)
-}
+// Spring Boot 3.x에서는 bootJar 태스크의 mainClass는 application 플러그의 mainClass를 따릅니다.
+// 특별한 경우가 아니면 굳이 다시 설정할 필요는 없습니다.
+// tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+//     mainClass.set(mainClassFqcn)
+// }
 
 // ✅ Java 컴파일 설정
 tasks.withType<JavaCompile> {
