@@ -1,80 +1,91 @@
+//app/policy/totalPolicies/page.tsx (전체 정책 view 페이지)
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import policyApi, { PolicyListResponse } from "@/libs/api/policy.api";
-import PolicyCardList from './components/PolicyCardList';
 import PolicyFilterBar from './components/PolicyFilterBar';
+import PolicyCardList from './components/PolicyCardList';
 import Pagination from './components/Pagination';
 import PolicyCounter from './components/PolicyCounter';
 import styles from '../total_policy.module.css';
 
 export default function PolicyPage() {
-  const [policyData, setPolicyData] = useState<PolicyListResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [categories, setCategories] = useState<string[]>([]);
-  
-  // 검색 및 필터 상태 - 데이터베이스 컬럼에 맞게 수정
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchType, setSearchType] = useState('plcyNm'); // 정책명으로 기본 설정
+  const [searchType, setSearchType] = useState('title');
   const [region, setRegion] = useState('전국');
-  const [sortBy, setSortBy] = useState('NO_desc'); // 최신 등록순
+  const [sortBy, setSortBy] = useState('date_desc');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [minAge, setMinAge] = useState<number | undefined>();
-  const [maxAge, setMaxAge] = useState<number | undefined>();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const policies = [
+    { id: 1, title: '교육 지원 정책 1', summary: '2025년 교육 지원 프로그램', support: '500만 원', deadline: '2025-08-01', category: '교육' },
+    { id: 2, title: '복지 혜택 정책 2', summary: '저소득층 지원 안내', support: '300만 원', deadline: '2025-07-31', category: '복지' },
+    { id: 3, title: '환경 보호 정책 3', summary: '탄소 배출 저감 방안', support: '700만 원', deadline: '2025-07-30', category: '환경' },
+    { id: 4, title: '교육 지원 정책 4', summary: '온라인 학습 지원', support: '400만 원', deadline: '2025-07-29', category: '교육' },
+    { id: 5, title: '복지 혜택 정책 5', summary: '노인 복지 확대', support: '600만 원', deadline: '2025-07-28', category: '복지' },
+    { id: 6, title: '환경 보호 정책 6', summary: '재생에너지 도입', support: '800만 원', deadline: '2025-07-27', category: '환경' },
+    { id: 7, title: '교육 지원 정책 7', summary: '2025년 교육 지원 프로그램', support: '550만 원', deadline: '2025-08-01', category: '교육' },
+    { id: 8, title: '복지 혜택 정책 8', summary: '저소득층 지원 안내', support: '350만 원', deadline: '2025-07-31', category: '복지' },
+    { id: 9, title: '환경 보호 정책 9', summary: '탄소 배출 저감 방안', support: '750만 원', deadline: '2025-07-30', category: '환경' },
+    { id: 10, title: '교육 지원 정책 10', summary: '온라인 학습 지원', support: '450만 원', deadline: '2025-07-29', category: '교육' },
+    { id: 11, title: '복지 혜택 정책 11', summary: '노인 복지 확대', support: '650만 원', deadline: '2025-07-28', category: '복지' },
+    { id: 12, title: '환경 보호 정책 12', summary: '재생에너지 도입', support: '850만 원', deadline: '2025-07-27', category: '환경' }
+  ];
 
   const itemsPerPage = 12;
-  const router = useRouter();
 
-  // 카테고리 목록 로드 (대분류 기준)
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const categoryList = await policyApi.getMajorCategories();
-        setCategories(categoryList);
-      } catch (error) {
-        console.error('카테고리 로드 실패:', error);
-      }
-    };
-    loadCategories();
-  }, []);
+  // 필터링 및 정렬 로직을 useMemo로 최적화
+  const filteredAndSortedPolicies = useMemo(() => {
+    let filtered = policies;
 
-  // 정책 데이터 로드
-  const loadPolicies = async () => {
-    setIsLoading(true);
-    try {
-      const response = await policyApi.getPolicies({
-        page: currentPage,
-        size: itemsPerPage,
-        searchType: searchType as 'plcyNm' | 'plcyExplnCn' | 'ptcpPrpTrgtCn',
-        searchQuery: searchQuery || undefined,
-        region,
-        sortBy: sortBy as 'aplyYmd_desc' | 'aplyYmd_asc' | 'sprtSclCnt_desc' | 'NO_desc',
-        category: selectedCategory || undefined,
-        minAge,
-        maxAge
+    // 카테고리 필터링
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter(policy => selectedCategories.includes(policy.category));
+    }
+
+    // 검색어 필터링
+    if (searchQuery.trim()) {
+      filtered = filtered.filter(policy => {
+        const searchField = policy[searchType as 'title' | 'summary'] || '';
+        return searchField.toLowerCase().includes(searchQuery.toLowerCase());
       });
-      setPolicyData(response);
-    } catch (error) {
-      console.error('정책 데이터 로드 실패:', error);
-      setPolicyData(null);
-    } finally {
-      setIsLoading(false);
     }
-  };
 
-  // 검색 조건이 변경될 때마다 데이터 로드
-  useEffect(() => {
-    loadPolicies();
-  }, [currentPage, searchType, region, sortBy, searchQuery, selectedCategory, minAge, maxAge]);
+    // 정렬
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'date_desc':
+          return new Date(b.deadline).getTime() - new Date(a.deadline).getTime();
+        case 'date_asc':
+          return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+        case 'support_desc':
+          const aSupport = parseInt(a.support.replace(/[^0-9]/g, ''));
+          const bSupport = parseInt(b.support.replace(/[^0-9]/g, ''));
+          return bSupport - aSupport;
+        default:
+          return 0;
+      }
+    });
 
-  // 검색 조건 변경 시 첫 페이지로 이동
+    return filtered;
+  }, [policies, selectedCategories, searchQuery, searchType, sortBy]);
+
+  // 검색 결과나 필터 변경 시 페이지를 1로 초기화
   useEffect(() => {
-    if (currentPage !== 1) {
-      setCurrentPage(1);
-    }
-  }, [searchType, region, sortBy, searchQuery, selectedCategory, minAge, maxAge]);
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategories, sortBy]);
+
+  const totalFiltered = filteredAndSortedPolicies.length;
+  const totalPages = Math.ceil(totalFiltered / itemsPerPage);
+  const hasResults = totalFiltered > 0;
+
+  const paginatedPolicies = filteredAndSortedPolicies.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const router = useRouter();
 
   const handleCardClick = (id: number) => {
     router.push(`/policy_detail/${id}`);
@@ -86,36 +97,21 @@ export default function PolicyPage() {
 
   const handleClearSearch = () => {
     setSearchQuery('');
-    setSelectedCategory('');
-    setMinAge(undefined);
-    setMaxAge(undefined);
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
   const handleNextPage = () => {
-    if (policyData && currentPage < policyData.totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   return (
     <div className={styles.main}>
       <h1 className={styles.headerTitle}>정책 포털</h1>
       <div className={styles.content}>
-        <PolicyCounter 
-          total={policyData?.totalCount || 0} 
-          filtered={policyData?.totalCount || 0} 
-        />
-
+        <PolicyCounter total={policies.length} filtered={totalFiltered} />
         <PolicyFilterBar
           searchType={searchType}
           setSearchType={setSearchType}
@@ -126,44 +122,28 @@ export default function PolicyPage() {
           onSearch={handleSearch}
           searchQuery={searchQuery}
           onClearSearch={handleClearSearch}
-          categories={categories}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          minAge={minAge}
-          setMinAge={setMinAge}
-          maxAge={maxAge}
-          setMaxAge={setMaxAge}
         />
-
-        {isLoading ? (
-          <div className={styles.loading}>로딩 중...</div>
-        ) : !policyData || policyData.policies.length === 0 ? (
+        
+        {!hasResults ? (
           <div className={styles.noResults}>
             <h3>검색 결과가 없습니다.</h3>
-            {searchQuery && <p>검색어: {searchQuery}</p>}
-            {selectedCategory && <p>카테고리: {selectedCategory}</p>}
-            {(minAge || maxAge) && (
-              <p>연령: {minAge || 0}세 ~ {maxAge || 100}세</p>
-            )}
+            <p>검색어: {searchQuery}</p>
             <button onClick={handleClearSearch} className={styles.clearButton}>
               전체 정책 보기
             </button>
           </div>
         ) : (
-          <>
-            <PolicyCardList 
-              policies={policyData.policies} 
-              onCardClick={handleCardClick} 
-            />
-            <Pagination
-              currentPage={currentPage}
-              totalPages={policyData.totalPages}
-              onPrev={handlePrevPage}
-              onNext={handleNextPage}
-              onPageChange={handlePageChange}
-            />
-          </>
+          <PolicyCardList policies={paginatedPolicies} onCardClick={handleCardClick} />
         )}
+        
+        {/* Pagination을 항상 노출하도록 수정 */}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPrev={handlePrevPage}
+          onNext={handleNextPage}
+          onPageChange={(page) => setCurrentPage(page)}
+        />
       </div>
     </div>
   );
