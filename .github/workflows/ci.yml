@@ -53,6 +53,10 @@ jobs:
         run: chmod +x gradlew
         working-directory: backend
 
+      - name: 📂 gradle-wrapper 파일 확인 (디버깅용)
+        run: ls -R gradle
+        working-directory: backend
+
       - name: 🔍 Run Backend Tests
         run: ./gradlew clean test --no-daemon
         working-directory: backend
