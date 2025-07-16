@@ -40,7 +40,7 @@ jobs:
           java-version: 17
           distribution: temurin
 
-      - name: ♻️ Gradle Cache 설정
+      - name: ♻️ Gradle Cache 설정 (backend 디렉토리 기준)
         uses: actions/cache@v3
         with:
           path: |
@@ -51,11 +51,7 @@ jobs:
 
       - name: 🔐 gradlew 실행 권한 부여
         working-directory: backend
-        run: chmod +x gradlew
-
-      - name: 📂 gradle-wrapper 파일 확인 (디버깅용)
-        working-directory: backend
-        run: ls -R gradle
+        run: chmod +x ./gradlew
 
       - name: 🔍 Run Backend Tests
         working-directory: backend
