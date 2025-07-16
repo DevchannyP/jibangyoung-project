@@ -51,9 +51,11 @@ jobs:
 
       - name: 🔐 gradlew 실행 권한 부여
         run: chmod +x gradlew
+        working-directory: backend
 
       - name: 🔍 Run Backend Tests
         run: ./gradlew clean test --no-daemon
+        working-directory: backend
 
   frontend:
     name: 🎨 Frontend Lint & Build
