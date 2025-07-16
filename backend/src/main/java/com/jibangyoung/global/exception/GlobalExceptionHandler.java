@@ -1,46 +1,87 @@
 package com.jibangyoung.global.exception;
 
-import lombok.extern.slf4j.Slf4j; // ✅ lombok.extern.slf4j.Slf4j 추가
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.jibangyoung.global.common.ApiResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
-@Slf4j // ✅ @Slf4j 어노테이션 확인
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResponse<Object>> handleBusinessException(BusinessException e) {
-        log.error("Business exception occurred: {}", e.getMessage(), e);
-        ErrorCode errorCode = e.getErrorCode(); // getErrorCode()는 BusinessException에 @Getter가 있으면 자동 생성
-        ApiResponse<Object> response = ApiResponse.error(errorCode.getMessage(), errorCode.getCode());
-        return ResponseEntity.status(errorCode.getStatus()).body(response);
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+        log.error("Business exception occurred: {}", e.getMessage());
+        ErrorResponse response = ErrorResponse.of(e.getErrorCode());
+        return ResponseEntity.status(e.getErrorCode().getStatus()).body(response);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Object>> handleValidationException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException e) {
         log.error("Validation exception occurred: {}", e.getMessage());
-        String errorMessage = e.getBindingResult().getFieldError() != null ?
-                e.getBindingResult().getFieldError().getDefaultMessage() : "유효성 검사 실패";
-        ApiResponse<Object> response = ApiResponse.error(errorMessage, ErrorCode.INVALID_INPUT_VALUE.getCode());
-        return ResponseEntity.status(ErrorCode.INVALID_INPUT_VALUE.getStatus()).body(response);
+
+        Map<String, String> errors = new HashMap<>();
+        e.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ApiResponse<Object>> handleMethodNotAllowed(HttpRequestMethodNotSupportedException e) {
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<ErrorResponse> handleBindException(BindException e) {
         log.error("Bind exception occurred: {}", e.getMessage());
-        ApiResponse<Object> response = ApiResponse.error(ErrorCode.METHOD_NOT_ALLOWED.getMessage(), ErrorCode.METHOD_NOT_ALLOWED.getCode());
-        return ResponseEntity.status(ErrorCode.METHOD_NOT_ALLOWED.getStatus()).body(response);
+
+        Map<String, String> errors = new HashMap<>();
+        e.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+
+        ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_INPUT_VALUE, errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException e) {
+        log.error("Authentication exception occurred: {}", e.getMessage());
+        ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_LOGIN_CREDENTIALS);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+        log.error("Access denied exception occurred: {}", e.getMessage());
+        ErrorResponse response = ErrorResponse.of(ErrorCode.ACCESS_DENIED);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
+    // GlobalExceptionHandler에 JWT 예외 핸들러 추가 예시
+@ExceptionHandler({io.jsonwebtoken.JwtException.class, IllegalArgumentException.class})
+public ResponseEntity<ErrorResponse> handleJwtException(Exception e) {
+    log.error("JWT 예외 발생: {}", e.getMessage());
+    ErrorResponse response = ErrorResponse.of(ErrorCode.INVALID_TOKEN);
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+}
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Object>> handleGeneralException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("Unexpected exception occurred: {}", e.getMessage(), e);
-        ApiResponse<Object> response = ApiResponse.error(ErrorCode.INTERNAL_SERVER_ERROR.getMessage(), ErrorCode.INTERNAL_SERVER_ERROR.getCode());
-        return ResponseEntity.status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus()).body(response);
+        ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }

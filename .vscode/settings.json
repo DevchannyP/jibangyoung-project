@@ -14,7 +14,9 @@
   "files.encoding": "utf8",
   "files.exclude": {
     "**/.next": true,
-    "**/node_modules": true
+    "**/node_modules": true,
+    "**/build": true,
+    "**/.gradle": true
   },
 
   // ✅ ESLint 설정
@@ -37,8 +39,9 @@
   // ✅ TypeScript 전용 SDK 설정
   "typescript.tsdk": "node_modules/typescript/lib",
 
-  // ✅ Java 멀티모듈 소스 경로
+  // ✅ Java 멀티모듈 소스 경로 (예시 기반)
   "java.project.sourcePaths": [
+    "backend/src/main/java",
     "backend/modules/auth/src/main/java",
     "backend/modules/user/src/main/java",
     "backend/modules/policy/src/main/java",
@@ -46,7 +49,7 @@
     "backend/config/src/main/java"
   ],
 
-  // ✅ Java 런타임 경로 및 버전 (수동 경로 확인 필요)
+  // ✅ Java 런타임 경로 및 버전 (❗경로는 로컬 JDK에 맞게 수정)
   "java.configuration.runtimes": [
     {
       "name": "JavaSE-17",
@@ -57,6 +60,7 @@
 
   // ✅ Java import & 컴파일 설정
   "java.import.gradle.enabled": true,
+  "java.import.gradle.wrapper.enabled": true,
   "java.project.importHints": true,
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.compile.nullAnalysis.mode": "automatic",
@@ -65,7 +69,7 @@
   // ✅ Kotlin 언어 서버 설정
   "kotlin.languageServer.enabled": true,
 
-  // ✅ Gradle 설정
+  // ✅ Gradle 설정 (❗JDK 경로 재확인 필요)
   "gradle.autoSync": true,
   "gradle.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-17.0.15.6-hotspot",
 
@@ -73,7 +77,7 @@
   "path-intellisense.autoSlashAfterDirectory": true,
   "path-intellisense.extensionOnImport": true,
 
-  // ✅ YAML 스키마 자동 연동
+  // ✅ YAML 스키마 자동 연동 (예: GitHub Actions 등)
   "yaml.validate": true,
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": "/.github/workflows/*"

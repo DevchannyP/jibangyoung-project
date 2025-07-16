@@ -1,9 +1,7 @@
-// backend/src/main/java/com/jibangyoung/domain/auth/entity/RefreshToken.java
 package com.jibangyoung.domain.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,47 +12,42 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "refresh_tokens")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // Builder X
 @EntityListeners(AuditingEntityListener.class)
 public class RefreshToken {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column(nullable = false, unique = true)
+
+    @Column(nullable = false, unique = true, length = 512)
     private String token;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    
+
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
-    
+
     @Column(name = "is_revoked", nullable = false)
-    private boolean revoked = false;
-    
+    private boolean revoked;
+
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-    
-    @Builder
-    public RefreshToken(String token, User user, LocalDateTime expiresAt) {
-        this.token = token;
-        this.user = user;
-        this.expiresAt = expiresAt;
+
+    // 정적 팩토리 메서드
+    public static RefreshToken create(String token, User user, LocalDateTime expiresAt) {
+        RefreshToken rt = new RefreshToken();
+        rt.token = token;
+        rt.user = user;
+        rt.expiresAt = expiresAt;
+        rt.revoked = false;
+        return rt;
     }
-    
-    public void revoke() {
-        this.revoked = true;
-    }
-    
-    public boolean isExpired() {
-        return LocalDateTime.now().isAfter(expiresAt);
-    }
-    
-    public boolean isValid() {
-        return !revoked && !isExpired();
-    }
+    public void revoke() { this.revoked = true; }
+    public boolean isExpired() { return LocalDateTime.now().isAfter(expiresAt); }
+    public boolean isValid() { return !revoked && !isExpired(); }
 }
+

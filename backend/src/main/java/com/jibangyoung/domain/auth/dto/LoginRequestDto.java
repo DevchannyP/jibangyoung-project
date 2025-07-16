@@ -21,3 +21,4 @@ public class LoginRequestDto {
     @Size(min = 4, max = 100, message = "비밀번호는 4~100자 사이여야 합니다.")
     private String password;
 }
+
