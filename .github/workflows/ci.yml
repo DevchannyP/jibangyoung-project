@@ -50,12 +50,10 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: 🔐 gradlew 실행 권한 부여
-        working-directory: backend
-        run: chmod +x ../gradlew
+        run: chmod +x gradlew
 
       - name: 🔍 Run Backend Tests
-        working-directory: backend
-        run: ../gradlew clean test --no-daemon
+        run: ./gradlew clean test --no-daemon
 
   frontend:
     name: 🎨 Frontend Lint & Build
