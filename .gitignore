@@ -13,6 +13,8 @@ node_modules/
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
+!gradle-wrapper.jar
+
 
 # 🚫 빌드 산출물 무시
 /backend/build/
