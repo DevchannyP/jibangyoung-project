@@ -35,15 +35,15 @@ build/                       # 루트 빌드 산출물
 !/gradle/wrapper/gradle-wrapper.jar
 !/gradle-wrapper.jar
 
-# -----------------------
-# ⚙️ 기타 프로젝트 설정/infra
-infra/.terraform/
-infra/.env
-.env
-*.iml
-.idea/
-.vscode/
-*.swp
+# # -----------------------
+# # ⚙️ 기타 프로젝트 설정/infra
+# infra/.terraform/
+# infra/.env
+# .env
+# *.iml
+# .idea/
+# .vscode/
+# *.swp
 
 # -----------------------
 # 📌 최종 예외 선언(중복 안전)
