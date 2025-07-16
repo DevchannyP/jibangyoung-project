@@ -45,8 +45,9 @@ jobs:
         with:
           path: |
             backend/.gradle/caches
+            backend/.gradle/wrapper
             backend/gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*.gradle*', 'backend/**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*.gradle*', 'backend/**/gradle-wrapper.properties', 'backend/**/gradle-wrapper.jar') }}
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: 🔐 gradlew 실행 권한 부여
