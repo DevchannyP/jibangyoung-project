@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 const dropdownItems = [
-  { label: "로그인", path: "/auth" },
+  { label: "로그인", path: "/auth/login" },
   { label: "아이디 찾기", path: "/auth/find-id" },
   { label: "비밀번호 찾기", path: "/auth/find-password" },
   { label: "회원가입", path: "/signup" },
@@ -86,7 +86,7 @@ export default function Header() {
           </div>
         </nav>
 
-        <Link href="/auth" className="btn-primary">
+        <Link href="/auth/login" className="btn-primary">
           로그인
         </Link>
       </div>

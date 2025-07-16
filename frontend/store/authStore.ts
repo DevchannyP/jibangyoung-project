@@ -1,48 +1,67 @@
+// store/authStore.ts
+import type { LoginTokenResponse } from "@/types/api/auth";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-// 1. 사용자 정보 타입(실무 확장형)
-export interface User {
+// 1. 유저 타입
+export type User = {
   id: number;
   email: string;
   nickname: string;
-  // role?: string;
-  // profileImage?: string;
-}
+};
 
-// 2. 인증 상태 구조
+// 2. 상태 구조
 export interface AuthState {
   user: User | null;
-  setUser: (user: User | null) => void;
+  accessToken: string | null;
+  refreshToken: string | null;
+  setUser: (user: User | null) => void; // 🟢 user만 바꾸는 setUser 추가
+  setAuth: (user: User, tokens: LoginTokenResponse) => void;
   logout: () => void;
 }
 
-// 3. Zustand + persist (로컬스토리지 영속성)
+// 3. Zustand + persist
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user) => set({ user }),
+      accessToken: null,
+      refreshToken: null,
+      setUser: (user) => set({ user }), // 🟢 user만 갱신
+      setAuth: (user, tokens) => {
+        set({
+          user,
+          accessToken: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
+        });
+        if (typeof window !== "undefined") {
+          localStorage.setItem("accessToken", tokens.accessToken);
+          localStorage.setItem("refreshToken", tokens.refreshToken);
+        }
+      },
       logout: () => {
-        set({ user: null });
-        // [실무] 서버 로그아웃/토큰 제거 요청 필요시 여기에 추가
-        // 예: fetch("/api/auth/logout", { method: "POST" })
+        set({ user: null, accessToken: null, refreshToken: null });
         if (typeof window !== "undefined") {
           localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
         }
       },
     }),
     {
       name: "auth-store", // localStorage 키
-      partialize: (state) => ({ user: state.user }), // 저장할 필드 제한
-      // storage: createJSONStorage(() => sessionStorage), // 세션 기준시 주석 해제
+      partialize: (state) => ({
+        user: state.user,
+        accessToken: state.accessToken,
+        refreshToken: state.refreshToken,
+      }),
     }
   )
 );
 
 /*
-  [실무 패턴 예시]
-  - const { user, setUser, logout } = useAuthStore();
-  - setUser({ id: 1, email: "a@b.com", nickname: "찬희" });
-  - logout();
+  [사용 예시]
+  const { user, setUser, setAuth, logout } = useAuthStore();
+  setUser({ id: 1, email: "test@a.com", nickname: "홍길동" });
+  setAuth(user, tokens);
+  logout();
 */

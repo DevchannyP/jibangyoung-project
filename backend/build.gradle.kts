@@ -1,14 +1,12 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
+    id("java")
     id("application")
     id("org.springframework.boot") version "3.2.4"
     id("io.spring.dependency-management") version "1.1.4"
-    kotlin("jvm") version "1.9.22"
-    kotlin("plugin.spring") version "1.9.22"
-    kotlin("plugin.jpa") version "1.9.22"
-    id("org.jetbrains.kotlin.kapt") version "1.9.22"
 }
+
+group = "com.jibangyoung"
+version = "1.0.0"
 
 java {
     toolchain {
@@ -21,100 +19,82 @@ repositories {
 }
 
 dependencies {
-    // ✅ Spring Web API
+    // Spring Boot Web & Security
     implementation("org.springframework.boot:spring-boot-starter-web")
-
-    // ✅ Spring Security + JWT
     implementation("org.springframework.boot:spring-boot-starter-security")
+
+    // JWT
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
-    // ✅ OAuth2 로그인
+    // OAuth2
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
-    // ✅ JPA + QueryDSL
+    // JPA + QueryDSL (annotationProcessor 적용!)
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
-    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    annotationProcessor("com.querydsl:querydsl-apt:5.0.0:jakarta")
 
-    // ✅ Redis
+    // JPA Entity 오류 방지
+    compileOnly("jakarta.persistence:jakarta.persistence-api:3.1.0")
+
+    // Redis, Swagger, AWS, Elasticsearch 등
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
-
-    // ✅ Swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-
-    // ✅ AWS S3
     implementation("software.amazon.awssdk:s3:2.25.22")
-
-    // ✅ Elasticsearch
     implementation("co.elastic.clients:elasticsearch-java:8.12.0")
 
-    // ✅ 배치 + 스케줄링
+    // Batch + Scheduler
     implementation("org.springframework.boot:spring-boot-starter-batch")
     implementation("net.javacrumbs.shedlock:shedlock-spring:5.7.0")
     implementation("net.javacrumbs.shedlock:shedlock-provider-jdbc-template:5.7.0")
 
-    // ✅ HTML 파서
+    // 유틸
     implementation("org.jsoup:jsoup:1.17.1")
-
-    // ✅ Jackson Kotlin
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
-    // ✅ Guava 유틸
     implementation("com.google.guava:guava:32.1.3-jre")
-
-    // ✅ 암호화
     implementation("commons-codec:commons-codec:1.16.1")
     implementation("org.bouncycastle:bcprov-jdk18on:1.77")
 
-    // ✅ Lombok (Java, Kotlin 혼합 환경)
+    // Lombok
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
-    kapt("org.projectlombok:lombok:1.18.30")
 
-    // ✅ 테스트
+    // MySQL
+    runtimeOnly("mysql:mysql-connector-java:8.0.33")
+
+    // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.mockito:mockito-core:5.11.0")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    // ✅ MySQL JDBC 드라이버 추가
-    runtimeOnly("mysql:mysql-connector-java:8.0.33")
+    // JPA Entity 어노테이션 오류 방지 (annotationProcessor만으로 충분)
+    // compileOnly("jakarta.persistence:jakarta.persistence-api:3.1.0") // 이미 위에 포함
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api:3.1.0")
 }
 
-// ✅ QueryDSL 소스 경로 지정
-sourceSets["main"].java.srcDir("build/generated/source/kapt/main")
+// ✅ [Gradle 8.x 최신] QueryDSL Q 클래스 경로 수동 추가는 삭제
+// -> 자동 생성/인식됨, sourceSets 수정 X
 
-// ✅ KAPT 설정
-kapt {
-    correctErrorTypes = true
-}
+// 메인 클래스 설정
+val mainClassFqcn = "com.jibangyoung.JibangyoungApplication"
 
-// ✅ 실행 클래스 설정
-val mainClassName = "com.jibangyoung.JibangyoungApplication"
-
-tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    mainClass.set(mainClassName)
-}
 application {
-    mainClass.set(mainClassName)
+    mainClass.set(mainClassFqcn)
 }
 
-// ✅ 테스트 설정
-tasks.test {
-    useJUnitPlatform()
+// BootJar 메인 클래스 (중복 설정도 가능하나, application만으로 충분)
+tasks.withType<org.springframework.boot.gradle.tasks.bundling.BootJar> {
+    mainClass.set(mainClassFqcn)
 }
 
-// ✅ Java 컴파일 설정
+// Java 컴파일 옵션
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
+    options.compilerArgs.addAll(listOf("-parameters"))
 }
 
-// ✅ Kotlin 컴파일 설정
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-    }
+// 테스트 플랫폼 설정
+tasks.test {
+    useJUnitPlatform()
 }
