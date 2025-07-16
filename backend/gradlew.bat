@@ -17,7 +17,7 @@
 @if "%DEBUG%"=="" @echo off
 @rem ##########################################################################
 @rem
-@rem  Gradle startup script for Windows (backend 디렉토리 전용)
+@rem  Gradle startup script for Windows
 @rem
 @rem ##########################################################################
 
@@ -53,7 +53,7 @@ goto fail
 
 :findJavaFromJavaHome
 set JAVA_HOME=%JAVA_HOME:"=%
-set JAVA_EXE=%JAVA_HOME%\bin\java.exe
+set JAVA_EXE=%JAVA_HOME%/bin/java.exe
 
 if exist "%JAVA_EXE%" goto execute
 
@@ -68,8 +68,8 @@ goto fail
 :execute
 @rem Setup the command line
 
-@rem ✅ backend 전용: gradle-wrapper.jar을 backend 내부에서 참조
 set CLASSPATH=%APP_HOME%\gradle\wrapper\gradle-wrapper.jar
+
 
 @rem Execute Gradle
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %GRADLE_OPTS% "-Dorg.gradle.appname=%APP_BASE_NAME%" -classpath "%CLASSPATH%" org.gradle.wrapper.GradleWrapperMain %*
