@@ -44,22 +44,22 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+            backend/.gradle/caches
+            backend/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*.gradle*', 'backend/**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: 🔐 gradlew 실행 권한 부여
-        # working-directory: backend # 이 줄은 제거합니다. gradlew는 루트에 있으므로
-        run: chmod +x gradlew # 리포지토리 루트에서 gradlew에 실행 권한 부여
+        working-directory: backend
+        run: chmod +x gradlew
 
       - name: 📂 gradle-wrapper 파일 확인 (디버깅용)
-        # working-directory: backend # 이 줄은 제거합니다.
-        run: ls -R gradle # 리포지토리 루트의 gradle 디렉토리 내용 확인
+        working-directory: backend
+        run: ls -R gradle
 
       - name: 🔍 Run Backend Tests
-        # working-directory: backend # 이 줄은 제거합니다.
-        run: ./gradlew :backend:clean :backend:test --no-daemon # backend 서브 프로젝트의 clean 및 test 태스크 실행
+        working-directory: backend
+        run: ./gradlew clean test --no-daemon
 
   frontend:
     name: 🎨 Frontend Lint & Build
