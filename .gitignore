@@ -11,7 +11,8 @@ node_modules/
 
 # Gradle 캐시
 .gradle/
-!gradle/wrapper/gradle-wrapper.jar  # wrapper는 포함
+build/
+!gradle/wrapper/gradle-wrapper.jar
 
 # 🚫 빌드 산출물 무시
 /backend/build/
